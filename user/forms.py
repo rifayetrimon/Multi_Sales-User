@@ -11,3 +11,13 @@ class LoginForm(AuthenticationForm):
 
 class OtpForm(forms.Form):
     otp = forms.CharField(max_length=6, widget=forms.TextInput(attrs={'placeholder': 'OTP'}), label='OTP')
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['mobile', 'address']
+        widget = {
+            'mobile': forms.TextInput(attrs={'placeholder': 'Mobile'}),
+            'address': forms.TextInput(attrs={'placeholder': 'Address'}),
+        }

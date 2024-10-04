@@ -1,11 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from . forms import LoginForm, OtpForm
+from . forms import LoginForm, OtpForm, ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 import random
 from django.contrib.auth.models import User
-from . models import UserOtp
+from . models import UserOtp, Profile
 
 # Create your views here.
 
@@ -69,3 +69,20 @@ def home_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+@login_required
+def profile_update_view(request):
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        profile = Profile.objects.create(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_update')                 
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'profile_update.html', {'form': form})

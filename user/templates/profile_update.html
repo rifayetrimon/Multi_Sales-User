@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Update Profile</title>
     <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
 </head>
 <body>
-    <h1>Login</h1>
+    <h1>{{ request.user.username }} Update your profile</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Login</button>
+        <button type="submit">Update</button>
     </form>
-    <p><a href="{% url 'password_reset' %}">Forget password</a></p>
+    <br>
+    <a href="{% url 'home' %}"><input type="button" value="Home">Back to home</a>
 </body>
 </html>
